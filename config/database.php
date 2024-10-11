@@ -1,9 +1,9 @@
 
 class Database {
-    private $host = "localhost";
-    private $db_name = "mi_base_de_datos";
-    private $username = "root";
-    private $password = "";
+    private $host = "localhost:3306";
+    private $db_name = "intran23_sistema";
+    private $username = "intran23_root";
+    private $password = "Intranet12_";
     public $conn;
 
     public function getConnection() {
