@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Business Landing</title>
+    <title>Login - Portal Ventas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -12,8 +11,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #00A9B8, #005f73);
+            background-color: #e8f0fe;
         }
+
         .login-container {
             display: flex;
             width: 900px;
@@ -21,13 +21,15 @@
             background-color: white;
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
         }
+
         .image-section {
             flex: 1;
             background: url('/assets/images/banner.jpg') no-repeat center center;
             background-size: cover;
         }
+
         .form-section {
             flex: 1;
             padding: 50px;
@@ -35,25 +37,29 @@
             flex-direction: column;
             justify-content: center;
         }
+
         .form-section h2 {
             font-size: 32px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             font-weight: bold;
             color: #005f73;
         }
+
         .form-section p {
             font-size: 16px;
             color: #6c757d;
             margin-bottom: 30px;
         }
+
         .form-section .btn-primary {
             background-color: #005f73;
             border-color: #005f73;
             padding: 10px 20px;
         }
+
         .form-section .btn-primary:hover {
-            background-color: #00A9B8;
-            border-color: #00A9B8;
+            background-color: #007b8f;
+            border-color: #007b8f;
         }
     </style>
 </head>
