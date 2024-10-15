@@ -1,93 +1,67 @@
-/* le da formato al documento*/
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Arial', sans-serif;
 }
-/*le da diseño y acomoda todo lo que este dentro del cuerpo de la pagina*/
+
 body {
-    background: #064046;
+    background: #064046; /* Color oscuro de fondo para todo el cuerpo */
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
 }
 
-/*le da diseño al contenedor del formulario*/
 .login-container {
-    width: 350px;
-    background: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-}
-
-/*crea una barra de pestañas*/
-.tabs {
     display: flex;
-    justify-content: space-between;
-    border-bottom: 2px solid #f0f0f0;
-    margin-bottom: 20px;
-}
-
-.tabs button {
-    width: 50%;
-    background: none;
-    border: none;
-    padding: 10px;
-    font-size: 16px;
-    cursor: pointer;
-    color: gray;
-}
-
-.tabs .active {
-    font-weight: bold;
-    background: #f0f0f0;
-    color: black;
-}
-
-.input-container {
-    margin-bottom: 20px;
-}
-
-.input-container input {
+    flex-direction: row;
     width: 100%;
-    padding: 10px;
-    border: 1px solid #e0e0e0;
-    border-radius: 5px;
-    background: #f7f7f7;
-    font-size: 16px;
-    margin-bottom: 10px;
+    max-width: 1200px;
+    height: 600px;
+    background-color: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
-.input-container .icon {
-    position: relative;
-    top: -35px;
-    left: 10px;
+.image-section {
+    flex: 1;
+    background: url('../images/banner.jpg') no-repeat center center;
+    background-size: cover;
 }
 
-/*diseño de botón recuérdame*/
-.remember-forgot {
+.form-section {
+    flex: 1;
+    padding: 20px;
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
- 
-.remember-forgot label {
-    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
 }
 
-.remember-forgot a {
-    font-size: 14px;
-    color: gray;
-    text-decoration: none;
+.form-section h2 {
+    font-size: 32px;
+    color: #005f73;
+    margin-bottom: 20px;
 }
 
-/*Clase que da diseño al boton de iniciar sesión*/
-.login-btn {
+.form-section p {
+    color: #6c757d;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+input[type="email"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    background: #f7f7f7;
+}
+
+.btn-primary {
     width: 100%;
     padding: 15px;
     background: #00A9B8;
@@ -98,7 +72,16 @@ body {
     cursor: pointer;
 }
 
-/*efecto del boton login (se oscurece al pasar el cursor)*/
-.login-btn:hover {
+.btn-primary:hover {
     background: #008b9d;
+}
+
+@media (max-width: 768px) {
+    .login-container {
+        flex-direction: column;
+    }
+
+    .image-section {
+        display: none; /* Ocultar la imagen en pantallas pequeñas */
+    }
 }
