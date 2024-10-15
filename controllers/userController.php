@@ -35,9 +35,7 @@ class UserController {
                 // Si la autenticación es exitosa, redireccionar al dashboard
                 header("Location: dashboard.php?controller=user&action=dashboard");
                 exit(); // Detiene la ejecución del script después de la redirección para seguridad
-            } 
-            else 
-            {
+            } else {
                 // Si la autenticación falla, establecer un mensaje de error
                 $_SESSION['error'] = "Correo electrónico o contraseña incorrectos.";
                 // Redirigir al formulario de login para evitar reenvío del formulario
@@ -48,8 +46,7 @@ class UserController {
     }
 
     // Método para mostrar el dashboard después del login
-    public function dashboard()
-     {
+    public function dashboard() {
         // Carga la vista del dashboard
         include 'views/user/dashboard.php';
     }
