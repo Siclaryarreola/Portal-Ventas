@@ -51,4 +51,4 @@ class UserController {
         include 'views/user/dashboard.php';
     }
 }
-?>
+

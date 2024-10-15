@@ -6,10 +6,10 @@ class Database {
     private $username = "intran23_root";
      private $password = "Intranet12_";
 
-    //la variable almacena los datos de la conexion y se puede llamar desde donde sea por ser pública
+//la variable almacena los datos de la conexion y se puede llamar desde donde sea por ser publica
     public $conn;
-    // Añade esta variable para almacenar las declaraciones preparadas
-    private $stmt; 
+// Añade esta variable para almacenar las declaraciones preparadas
+private $stmt; 
 
     //verifica la conexión a la base de datos mediante una función pública 
     public function getConnection() 
