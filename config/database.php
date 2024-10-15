@@ -1,13 +1,15 @@
-
+<?php
 //clase que contiene los datos de conexión a la base de datos en privado
 class Database {
     private $host = "localhost:3306";
     private $db_name = "intran23_sistema";
     private $username = "intran23_root";
-    private $password = "Intranet12_";
+     private $password = "Intranet12_";
 
-//la variable almacena los datos de la conexion y se puede llamar desde donde sea por ser publica
+    //la variable almacena los datos de la conexion y se puede llamar desde donde sea por ser pública
     public $conn;
+    // Añade esta variable para almacenar las declaraciones preparadas
+    private $stmt; 
 
     //verifica la conexión a la base de datos mediante una función pública 
     public function getConnection() 

@@ -1,8 +1,11 @@
+<?php
+require_once('models/user.php');
 
-class UserController
- {
+// Clase UserController maneja las interacciones del usuario con la aplicación
+class UserController {
     private $userModel;
 
+    // Constructor que inicializa el modelo User
     public function __construct()
      {
         // Se inicializa el modelo User creando una variable que almacena el nuevo usuario
@@ -10,31 +13,36 @@ class UserController
     }
 
     // Método para mostrar el formulario de login
-    public function showLoginForm() 
-    {
-       // include 'views/user/login.php';
-       include 'index.php';
+    public function showLoginForm()
+     {
+        // Carga la vista principal que contiene el formulario de login
+        include 'index.php';
     }
 
     // Método para procesar el login
     public function login() 
     {
-        if ($_SERVER["REQUEST_METHOD"] == "POST")
-         {
-            //variables que almacenan los datos ingresados en el index
+        // Comprobar si el formulario se ha enviado usando POST
+        if ($_SERVER["REQUEST_METHOD"] == "POST") 
+        {
+            // Recuperar los datos del formulario
             $email = $_POST['email'];
             $password = $_POST['password'];
 
-            // Autenticación  de datos con el modelo
-            if ($this->userModel->authenticate($email, $password))
-             {
-                //redirecciona al documento dashboard si los datos son correctos
-                header("Location: dashboard.php?controller=user&action=dashboard");
-            } else 
+            // Autenticar los datos con el modelo
+            if ($this->userModel->authenticate($email, $password)) 
             {
-                //envía un error si los datos ingresados no son correctos
-                $error = "Correo electrónico o contraseña incorrectos.";
-                include 'index.php';
+                // Si la autenticación es exitosa, redireccionar al dashboard
+                header("Location: dashboard.php?controller=user&action=dashboard");
+                exit(); // Detiene la ejecución del script después de la redirección para seguridad
+            } 
+            else 
+            {
+                // Si la autenticación falla, establecer un mensaje de error
+                $_SESSION['error'] = "Correo electrónico o contraseña incorrectos.";
+                // Redirigir al formulario de login para evitar reenvío del formulario
+                header("Location: index.php");
+                exit(); // Detiene la ejecución del script después de la redirección
             }
         }
     }
@@ -42,6 +50,8 @@ class UserController
     // Método para mostrar el dashboard después del login
     public function dashboard()
      {
+        // Carga la vista del dashboard
         include 'views/user/dashboard.php';
     }
 }
+?>
