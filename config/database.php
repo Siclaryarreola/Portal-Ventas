@@ -1,30 +1,33 @@
+
 <?php
-//clase que contiene los datos de conexión a la base de datos en privado
-class Database {
-    private $host = "localhost:3306";
-    private $db_name = "intran23_sistema";
-    private $username = "intran23_root";
-     private $password = "Intranet12_";
+//clase que contiene los datos de la conexión a la base de datos.
+class Database 
 
-//la variable almacena los datos de la conexion y se puede llamar desde donde sea por ser publica
+{
+    private $host = "127.0.01";
+    private $db_name = "sisVentas";
+    private $username = " root";
+    private $password = "";
     public $conn;
-// Añade esta variable para almacenar las declaraciones preparadas
-private $stmt; 
 
-    //verifica la conexión a la base de datos mediante una función pública 
-    public function getConnection() 
+    // Constructor para conectar a la base de datos.
+    public function __construct() 
     {
-        $this->conn = null;
-        //En caso de que la conexión no se pueda realizar, envía un error avisando que no se coneectó
-        try 
-        {
-            $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
+        try {
+            // Crear una nueva conexión PDO
+            $this->conn = new PDO("mysql:host=localhost;dbname={$this->db_name}", $this->username, $this->password);
+            // Configurar atributos PDO para manejo de errores.
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException $exception) 
+        } catch (PDOException $e) 
         {
-            echo "Error de conexión: " . $exception->getMessage();
+            // Imprimir mensaje de error si la conexión falla
+            echo "Error de conexión: " . $e->getMessage();
         }
-        return $this->conn;
+    }
+
+    // Método para preparar consultas SQL.
+    public function prepare($sql) 
+    {
+        return $this->conn->prepare($sql);
     }
 }
-

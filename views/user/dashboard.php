@@ -1,3 +1,15 @@
+<?php
+session_start();  // Asegúrate de iniciar la sesión
+
+// Verificar si el usuario ha iniciado sesión
+if (isset($_SESSION['user'])) {
+    $user = $_SESSION['user'];  // Obtener los detalles del usuario desde la sesión
+} else {
+    // Si el usuario no ha iniciado sesión, redirigirlo al formulario de login
+    header('Location: index.php');
+    exit();
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -5,14 +17,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-<!--libreria de bootstrap-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container mt-5">
-        <h1>Bienvenido al Dashboard</h1>
-        <p>Has iniciado sesión correctamente.</p>
-        <a href="index.php?controller=user&action=showLoginForm" class="btn btn-primary">Cerrar sesión</a>
-    </div>
+
+    <h1>Bienvenido al Dashboard,</h1>
+    <p>Has iniciado sesión correctamente como <?php echo $user['name']; ?>.</p>
+
 </body>
 </html>

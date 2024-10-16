@@ -1,54 +1,62 @@
 <?php
-require_once('models/user.php');
+require_once('models/user.php');  // Asegúrate de que esta ruta es correcta
 
-// Clase UserController maneja las interacciones del usuario con la aplicación
-class UserController {
+class userController {
     private $userModel;
 
-    // Constructor que inicializa el modelo User
-    public function __construct()
-     {
-        // Se inicializa el modelo User creando una variable que almacena el nuevo usuario
+    public function __construct() {
         $this->userModel = new User();
     }
 
-    // Método para mostrar el formulario de login
-    public function showLoginForm()
-     {
-        // Carga la vista principal que contiene el formulario de login
-        include 'index.php';
+    public function showLoginForm() {
+        include 'views/user/login.php';  // Asegúrate de que la ruta sea correcta
     }
 
-    // Método para procesar el login
-    public function login() 
-    {
-        // Comprobar si el formulario se ha enviado usando POST
-        if ($_SERVER["REQUEST_METHOD"] == "POST") 
-        {
-            // Recuperar los datos del formulario
+    public function login() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = $_POST['email'];
             $password = $_POST['password'];
 
-            // Autenticar los datos con el modelo
-            if ($this->userModel->authenticate($email, $password)) 
-            {
-                // Si la autenticación es exitosa, redireccionar al dashboard
-                header("Location: dashboard.php?controller=user&action=dashboard");
-                exit(); // Detiene la ejecución del script después de la redirección para seguridad
+            $user = $this->userModel->authenticate($email, $password);
+            if ($user) {
+                $_SESSION['user'] = $user;
+                header('Location: views/user/dashboard.php');
+                exit();
             } else {
-                // Si la autenticación falla, establecer un mensaje de error
-                $_SESSION['error'] = "Correo electrónico o contraseña incorrectos.";
-                // Redirigir al formulario de login para evitar reenvío del formulario
-                header("Location: index.php");
-                exit(); // Detiene la ejecución del script después de la redirección
+                $_SESSION['error'] = 'Correo electrónico o contraseña incorrectos';
+                header('Location: index.php');
+                exit();
             }
         }
     }
 
-    // Método para mostrar el dashboard después del login
-    public function dashboard() {
-        // Carga la vista del dashboard
-        include 'views/user/dashboard.php';
+    public function showRegistrationForm() {
+        include 'views/user/register.php';  // Asegúrate de que la ruta sea correcta
+    }
+
+    public function createAccount() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $nombre = $_POST['nombre'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+
+            // Intentamos registrar al usuario
+            $result = $this->userModel->register($nombre, $email, $password);
+
+            if ($result) {
+                $_SESSION['success'] = 'Cuenta creada exitosamente.';
+                header('Location: index.php');
+            } else {
+                $_SESSION['error'] = 'El correo ya está registrado.';
+                header('Location: index.php?controller=user&action=register');
+            }
+            exit();
+        }
+    }
+
+    public function logout() {
+        session_destroy();
+        header('Location: index.php');
+        exit();
     }
 }
-
