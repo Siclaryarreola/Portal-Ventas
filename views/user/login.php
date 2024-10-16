@@ -1,3 +1,6 @@
+<?php
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,13 +20,14 @@
             <h2>Portal Ventas</h2>
             <p>Bienvenido a nuestro portal. Por favor, inicia sesión para continuar.</p>
 
-            <!-- Mostrar mensaje de error si existe -->
-            <?php if (isset($_SESSION['error'])): ?>
+            <!-- Mostrar mensaje de error si existe 
+           /* <?php if (isset($_SESSION['error'])): ?>
                 <div class="alert alert-danger">
                     <?php echo $_SESSION['error']; ?>
                 </div>
                 <?php unset($_SESSION['error']); ?>
-            <?php endif; ?>
+            <?php endif; ?> */
+            -->
 
             <!-- Formulario de login que envía los datos a index.php para ser manejados por el controlador -->
             <form action="index.php?controller=user&action=login" method="POST">

@@ -9,7 +9,7 @@ class userController {
     }
 
     public function showLoginForm() {
-        include 'views/user/login.php';  // Asegúrate de que la ruta sea correcta
+        require(__DIR__ . '/../views/user/login.php');  // Ruta absoluta para login.php
     }
 
     public function login() {
