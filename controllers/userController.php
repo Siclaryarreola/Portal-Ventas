@@ -64,7 +64,7 @@ public function createAccount() {
         $password = $_POST['password'];
 
         // Intentamos registrar al usuario
-        $result = $this->userModel->register($nombre, $email, $password);
+        $result = $this->userModel->createUser($nombre, $email, $password);
 
         if ($result) {
             $_SESSION['success'] = 'Cuenta creada exitosamente.';

@@ -11,12 +11,11 @@ class UserModel {
     
     // Método para validar la existencia de un usuario por su correo electrónico y verificar la contraseña
     public function getUserByEmail($email, $password) {
-        $sql = "SELECT id, correo, contraseña, rol FROM usuarios WHERE correo = ?"; // Consulta SQL para buscar al usuario por correo
+        $sql = "SELECT id, correo, contraseña, rol, intentos_fallidos, ultimo_intento FROM usuarios WHERE correo = ?";
         $stmt = $this->db->prepare($sql); // Prepara la consulta SQL para evitar inyecciones SQL
 
-        // Depuración: Verificar si la consulta fue preparada correctamente
+        // Verificar si la consulta fue preparada correctamente
         if ($stmt === false) {
-            echo "Error al preparar la consulta SQL: " . $this->db->error . "\n";
             error_log("Error al preparar la consulta SQL: " . $this->db->error);
             return false; // Devuelve false si ocurre un error
         }
@@ -25,57 +24,94 @@ class UserModel {
         $stmt->execute(); // Ejecuta la consulta
         $result = $stmt->get_result(); // Obtiene el resultado de la consulta
 
-        // Depuración: Verificar si se obtuvo algún resultado
+        // Verificar si se obtuvo algún resultado
         if ($result->num_rows === 0) {
-            echo "No se encontró ningún usuario con el correo: $email\n";
             error_log("No se encontró ningún usuario con el correo: $email");
-            return 'no_user';  // Devuelve 'no_user' si no se encuentra el usuario
+            return false;  // Devuelve false si no se encuentra el usuario
         }
 
         $user = $result->fetch_assoc(); // Obtiene los datos del usuario como un array asociativo
 
-        // Depuración: Verificar si se obtuvieron los datos del usuario correctamente
-        echo "Datos del usuario obtenidos:\n";
-        print_r($user); // Mostrar los datos del usuario para depuración
-        error_log("Datos del usuario obtenidos: " . print_r($user, true));
+        // Limitar intentos de inicio de sesión fallidos
+        if ($user['intentos_fallidos'] >= 3) {
+            $currentTime = new DateTime();
+            $lastAttempt = new DateTime($user['ultimo_intento']);
+            $interval = $currentTime->diff($lastAttempt);
 
-        // Verifica si la contraseña proporcionada es válida
-        if ($user && !password_verify($password, $user['contraseña'])) {
-            echo "Contraseña incorrecta para el correo: $email\n";
-            error_log("Contraseña incorrecta para el correo: $email");
-            return 'wrong_password';  // Devuelve 'wrong_password' si la contraseña es incorrecta
+            // Verificar si han pasado menos de 30 minutos
+            if ($interval->i < 30) {
+                error_log("Usuario bloqueado temporalmente debido a demasiados intentos fallidos: $email");
+                return 'user_blocked';  // Devuelve 'user_blocked' si el usuario está bloqueado temporalmente
+            }
         }
 
-        // Depuración: La autenticación fue exitosa
-        echo "Autenticación exitosa para el usuario con correo: $email\n";
-        error_log("Autenticación exitosa para el usuario con correo: $email");
+        // Verificar la contraseña
+        if (!password_verify($password, $user['contraseña'])) {
+            // Incrementar intentos fallidos y actualizar la última fecha de intento
+            $this->incrementFailedAttempts($email);
+            error_log("Contraseña incorrecta para el correo: $email");
+            return 'wrong_password';
+        }
 
-        return $user;  // Retorna el array completo del usuario si las credenciales son correctas
+        // Si la autenticación es exitosa, restablecer los intentos fallidos
+        $this->resetFailedAttempts($email);
+
+        // Retornar los datos del usuario
+        error_log("Autenticación exitosa para el usuario con correo: $email");
+        return $user;
+    }
+
+    // Método para incrementar los intentos fallidos y registrar la hora del último intento
+    private function incrementFailedAttempts($email) {
+        $sql = "UPDATE usuarios SET intentos_fallidos = intentos_fallidos + 1, ultimo_intento = NOW() WHERE correo = ?";
+        $stmt = $this->db->prepare($sql);
+
+        if ($stmt === false) {
+            error_log("Error al preparar la consulta SQL para incrementar intentos: " . $this->db->error);
+            return false;
+        }
+
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+    }
+
+    // Método para restablecer los intentos fallidos después de un inicio de sesión exitoso
+    private function resetFailedAttempts($email) {
+        $sql = "UPDATE usuarios SET intentos_fallidos = 0, ultimo_intento = NULL WHERE correo = ?";
+        $stmt = $this->db->prepare($sql);
+
+        if ($stmt === false) {
+            error_log("Error al preparar la consulta SQL para restablecer intentos: " . $this->db->error);
+            return false;
+        }
+
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
     }
 
     // Método para crear un nuevo usuario en la base de datos
     public function createUser($name, $email, $password) {
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT); // Encripta la contraseña antes de almacenarla en la base de datos
-        $sql = "INSERT INTO usuarios (nombre, correo, contraseña, rol) VALUES (?, ?, ?, 1)"; // Consulta SQL para insertar el nuevo usuario, con el rol por defecto como '1' (usuario regular)
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT); // Encripta la contraseña antes de almacenarla en la base de datos
+
+        // Consulta SQL para insertar el nuevo usuario, con el rol por defecto como '1' (usuario regular)
+        $sql = "INSERT INTO usuarios (nombre, correo, contraseña, rol) VALUES (?, ?, ?, 1)"; 
         $stmt = $this->db->prepare($sql); // Prepara la consulta SQL
 
-        // Depuración: Verificar si la consulta fue preparada correctamente
+        // Verificar si la consulta fue preparada correctamente
         if ($stmt === false) {
-            echo "Error al preparar la consulta SQL: " . $this->db->error . "\n";
             error_log("Error al preparar la consulta SQL: " . $this->db->error);
             return false; // Devuelve false si ocurre un error
         }
 
-        $stmt->bind_param("sss", $name, $email, $hashedPassword); // Vincula los parámetros a la consulta SQL
+        // Vincula los parámetros a la consulta SQL
+        $stmt->bind_param("sss", $name, $email, $hashedPassword);
         $stmt->execute(); // Ejecuta la consulta con los valores proporcionados
 
-        // Depuración: Verificar si el usuario fue creado correctamente
+        // Verificar si el usuario fue creado correctamente
         if ($stmt->affected_rows > 0) {
-            echo "Usuario creado exitosamente con ID: " . $this->db->insert_id . "\n";
             error_log("Usuario creado exitosamente con ID: " . $this->db->insert_id);
             return $this->db->insert_id; // Devuelve el ID del usuario recién creado
         } else {
-            echo "Error al crear el usuario: " . $this->db->error . "\n";
             error_log("Error al crear el usuario: " . $this->db->error);
             return false; // Devuelve false si ocurre un error
         }
