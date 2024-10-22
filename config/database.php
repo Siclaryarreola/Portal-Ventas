@@ -1,33 +1,29 @@
-
 <?php
-//clase que contiene los datos de la conexión a la base de datos.
-class Database 
+//ruta al documento con los datos de conexión
+require_once ('config/config.php');
 
-{
-    private $host = "127.0.01";
-    private $db_name = "sisVentas";
-    private $username = " root";
-    private $password = "";
-    public $conn;
+class Database {
+    private static $instance = null;
+    private $connection;
 
-    // Constructor para conectar a la base de datos.
-    public function __construct() 
-    {
-        try {
-            // Crear una nueva conexión PDO
-            $this->conn = new PDO("mysql:host=localhost;dbname={$this->db_name}", $this->username, $this->password);
-            // Configurar atributos PDO para manejo de errores.
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException $e) 
-        {
-            // Imprimir mensaje de error si la conexión falla
-            echo "Error de conexión: " . $e->getMessage();
+    private function __construct() {
+        $this->connection = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+        // Verificar conexión
+        if ($this->connection->connect_error) {
+            die("Error de conexión: " . $this->connection->connect_error);
         }
+        $this->connection->set_charset("utf8"); // Establece el juego de caracteres a utf8
     }
 
-    // Método para preparar consultas SQL.
-    public function prepare($sql) 
-    {
-        return $this->conn->prepare($sql);
+    public static function getInstance() {
+        if (!self::$instance) {
+            self::$instance = new Database();
+        }
+        return self::$instance;
+    }
+
+    public function getConnection() {
+        return $this->connection;
     }
 }
+

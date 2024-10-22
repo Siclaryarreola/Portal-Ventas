@@ -1,4 +1,4 @@
-/*orientacion del documento*/
+/* Orientación del documento */
 * {
     margin: 0;
     padding: 0;
@@ -6,42 +6,28 @@
     font-family: 'Arial', sans-serif;
 }
 
-/*Diseño y orientacion del contenido del cuerpo del documento*/
+/* Diseño y orientación del contenido del cuerpo del documento */
 body {
-    background: #f8f8f805; /* Color oscuro de fondo para todo el cuerpo */
+    background: #e0e1eb05; /* Color claro de fondo */
     display: flex;
-    justify-content: center; /* orientacion del contenido*/
-    align-items: center;/*alineacion*/
+    justify-content: center; /* Centrar el contenido horizontalmente */
+    align-items: center; /* Centrar el contenido verticalmente */
     height: 100vh;
 }
 
-/*diseño del contenedor del forumario*/
-.login-container {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    max-width: 1200px;
-    height: 500px;
-    background-color: white;
+/* Contenedor del formulario */
+.card {
     border-radius: 15px;
-    overflow: hidden;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
-/*ruta y deiseño de la imagen*/
-.image-section {
-    flex: 1;
-    background: url('../images/banner.jpg') no-repeat center center;
-    background-size: cover;
-}
-
+/* Sección del formulario */
 .form-section {
-    flex: 1;
-    padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 20px;
 }
 
 .form-section h2 {
@@ -56,8 +42,8 @@ body {
     margin-bottom: 20px;
 }
 
-/*diseño de contendor correo y contraseña*/
-input[type="email"], input[type="password"] {
+/* Campos de entrada: correo y contraseña */
+input[type="email"], input[type="password"], input[type="text"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
@@ -66,7 +52,7 @@ input[type="email"], input[type="password"] {
     background: #f7f7f7;
 }
 
-/*diseño del boton de ingresar */
+/* Botón de registro */
 .btn-primary {
     width: 100%;
     padding: 15px;
@@ -78,18 +64,18 @@ input[type="email"], input[type="password"] {
     cursor: pointer;
 }
 
-/*efecto del boton al pasar el cursor*/
+/* Efecto del botón al pasar el cursor */
 .btn-primary:hover {
     background: #008b9d;
 }
 
-/*efecto responsivo de la imagen al ajustar el navegador*/
+/* Responsivo: ajustar en pantallas pequeñas */
 @media (max-width: 768px) {
-    .login-container {
-        flex-direction: column;
+    .container {
+        width: 90%; /* Asegurar que el contenedor no se extienda demasiado */
     }
 
-    .image-section {
-        display: none; /* Ocultar la imagen en pantallas pequeñas */
+    .form-section {
+        padding: 10px;
     }
 }
