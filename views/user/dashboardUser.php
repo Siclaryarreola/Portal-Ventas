@@ -36,9 +36,11 @@ $_SESSION['ultimo_tiempo_actividad'] = time();
     <p>Has iniciado sesión correctamente como <?php echo htmlspecialchars($user['name']); ?>.</p>
     <p>Esto es una vista solo para Administrador.</p>
 
-    <!-- Botón para cerrar sesión -->
+        <!-- Botón para cerrar sesión -->
     <form action="../../controllers/userControllers.php" method="POST">
-    <button type="submit">Cerrar Sesión</button>
+        <input type="hidden" name="action" value="logout">
+        <button type="submit">Cerrar Sesión</button>
     </form>
+
 </body>
 </html>

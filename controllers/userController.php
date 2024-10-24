@@ -58,7 +58,7 @@ class userController {
                     header('Location: /Portal-Ventas/views/admin/dashboardAdmin.php');  // Ruta absoluta al dashboard admin
                 } else 
                 {
-                    header('Location: /Portal-Ventas/views/user/dashboarUser.php');  // Ruta absoluta al dashboard usuario
+                    header('Location: /Portal-Ventas/views/user/dashboardUser.php');  // Ruta absoluta al dashboard usuario
                 }
                 
                 exit();
