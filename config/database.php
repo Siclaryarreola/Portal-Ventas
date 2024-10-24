@@ -1,6 +1,6 @@
 <?php
-//ruta al documento con los datos de conexión
-require_once(__DIR__ . '/config.php');
+// Ruta correcta a la configuración de la base de datos
+require_once(ruta_database);
 
 class Database {
     private static $instance = null;

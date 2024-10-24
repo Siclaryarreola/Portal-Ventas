@@ -2,8 +2,7 @@
 // Iniciar la sesión para acceder a las variables almacenadas en la sesión
 session_start();
 
-// Incluir la conexión a la base de datos
-require_once('config/database.php');
+require_once(ruta_database);  // Usar la constante de ruta para la base de datos
 
 // Obtener las nuevas contraseñas ingresadas por el usuario
 $newPassword = $_POST['new_password'];
@@ -13,17 +12,20 @@ $confirmPassword = $_POST['confirm_password'];
 $email = $_SESSION['recovery_email'];
 
 // Verificar si las contraseñas coinciden
-if ($newPassword !== $confirmPassword) 
-{
+if ($newPassword !== $confirmPassword)
+ {
     // Si las contraseñas no coinciden, guardar un mensaje de error en la sesión
     $_SESSION['error'] = 'Las contraseñas no coinciden.';
     // Redirigir al formulario de restablecimiento de contraseña
-    header('Location: resetPass.php');
+    header('Location: ' . ruta_reset_password);  // Usar la ruta configurada para la página de restablecimiento
     exit();  // Terminar la ejecución del script
 }
 
 // Si las contraseñas coinciden, proceder a hashear la nueva contraseña
 $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+
+// Obtener la conexión a la base de datos
+$db = Database::getInstance()->getConnection();
 
 // Actualizar la contraseña en la base de datos para el usuario con el correo proporcionado
 $sql = "UPDATE usuarios SET contraseña = ? WHERE correo = ?";
@@ -37,12 +39,14 @@ if ($stmt->affected_rows > 0)
     // Si fue exitosa, guardar un mensaje de éxito en la sesión
     $_SESSION['success'] = 'Contraseña actualizada exitosamente. Ahora puedes iniciar sesión.';
     // Redirigir al formulario de inicio de sesión
-    header('Location: views/login.php');
+    header('Location: ' . ruta_login);  // Usar la ruta configurada para el login
     exit();  // Terminar la ejecución del script
-} else {
+} 
+else
+{
     // Si hubo un error al actualizar la contraseña, guardar un mensaje de error en la sesión
     $_SESSION['error'] = 'No se pudo actualizar la contraseña. Inténtalo de nuevo.';
     // Redirigir nuevamente al formulario de restablecimiento de contraseña
-    header('Location: resetPass.php');
+    header('Location: ' . ruta_reset_password);  // Usar la ruta configurada para la página de restablecimiento
     exit();  // Terminar la ejecución del script
 }

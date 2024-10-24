@@ -1,9 +1,14 @@
 <?php
 session_start();
-require_once('config/database.php');  // Archivo de conexión a la base de datos
 
-//Recupera el email del formulario
+
+require_once(ruta_database);  // Archivo de conexión a la base de datos
+
+// Recuperar el email del formulario
 $email = $_POST['email'];
+
+// Obtener la conexión a la base de datos
+$db = Database::getInstance()->getConnection();
 
 // Verificar si el correo electrónico existe en la base de datos
 $sql = "SELECT id FROM usuarios WHERE correo = ?";
@@ -14,7 +19,7 @@ $result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
     $_SESSION['error'] = 'El correo electrónico no está registrado.';
-    header('Location: forgotPass.php');
+    header('Location: ' . ruta_forgot_password);  // Redirigir a la página de recuperación
     exit();
 }
 
@@ -30,5 +35,5 @@ $_SESSION['recovery_email'] = $email;
 mail($email, "Código de recuperación", "Tu código de verificación es: $recoveryCode");
 
 // Redirigir a la página para verificar el código
-header('Location: verifyCode.php');
+header('Location: ' . ruta_verify_code);  // Redirigir a la página de verificación
 exit();
