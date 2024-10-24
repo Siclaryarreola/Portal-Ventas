@@ -43,7 +43,7 @@ if (isset($_GET['controller']) && isset($_GET['action'])) {
     // Verificar si el usuario ha iniciado sesión
     if (isset($_SESSION['user'])) {
         // Si el usuario ya ha iniciado sesión, redirigir al dashboard
-        header('Location: /admin/dashboardAdmin.php');
+        header('Location: ../admin/dashboardAdmin.php');
         exit();
     } else {
         // Si no ha iniciado sesión, mostrar el formulario de login

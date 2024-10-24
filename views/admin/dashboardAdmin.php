@@ -12,7 +12,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 // Tiempo máximo de inactividad permitido antes de cerrar la sesión automáticamente.
-define('TIEMPO_MAXIMO_INACTIVIDAD', 1800); // 30 minutos expresados en segundos.
+define('TIEMPO_MAXIMO_INACTIVIDAD', 180); 
 
 // Verificar si ha pasado más tiempo del permitido desde la última actividad registrada.
 if (isset($_SESSION['ultimo_tiempo_actividad']) && (time() - $_SESSION['ultimo_tiempo_actividad'] > TIEMPO_MAXIMO_INACTIVIDAD)) {

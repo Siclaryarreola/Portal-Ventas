@@ -1,6 +1,7 @@
 <?php
 require_once(__DIR__ . '/../models/userModel.php'); // Ruta absoluta correcta al modelo
 
+
 class userController {
     private $userModel;
 
@@ -9,7 +10,7 @@ class userController {
     }
 
     public function showLoginForm() {
-        require(__DIR__ . '/../views/user/login.php');  // Ruta absoluta para login.php
+        require(__DIR__ . '/../views/login.php');  // Ruta absoluta para login.php
     }
 
     public function login() {
@@ -30,9 +31,9 @@ class userController {
 
                 // Verificar el rol del usuario y redirigir a la página correspondiente
                 if ($user['rol'] === 'admin') {
-                    header('Location: /Portal-Ventas/views/admin/dashboardAdmin.php');  // Ruta absoluta al dashboard admin
+                    header('Location: ../views/admin/dashboardAdmin.php');  // Ruta absoluta al dashboard admin
                 } else {
-                    header('Location: /Portal-Ventas/views/user/dashboardUser.php');  // Ruta absoluta al dashboard usuario
+                    header('Location: ../views/admin/dashboardUser.php');  // Ruta absoluta al dashboard usuario
                 }
                 exit();
             } else {
