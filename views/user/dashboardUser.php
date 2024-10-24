@@ -29,17 +29,16 @@ $_SESSION['ultimo_tiempo_actividad'] = time();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard</title>
+    <title>Admin Dashboard</title>
 </head>
 <body>
-    <h1>Bienvenido al Dashboard de Usuario</h1>
+    <h1>Bienvenido al Dashboard de Administrador</h1>
     <p>Has iniciado sesión correctamente como <?php echo htmlspecialchars($user['name']); ?>.</p>
-    <p>Esto es una vista solo para usuarios.</p>
+    <p>Esto es una vista solo para Administrador.</p>
 
     <!-- Botón para cerrar sesión -->
-    <form action="logout.php" method="POST">
-        <button type="submit">Cerrar Sesión</button>
+    <form action="../../controllers/userControllers.php" method="POST">
+    <button type="submit">Cerrar Sesión</button>
     </form>
-
 </body>
 </html>

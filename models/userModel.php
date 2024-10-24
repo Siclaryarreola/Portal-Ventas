@@ -11,7 +11,7 @@ class UserModel {
     
     // Método para validar la existencia de un usuario por su correo electrónico y verificar la contraseña
     public function getUserByEmail($email, $password) {
-        $sql = "SELECT id, correo, contraseña, rol, intentos_fallidos, ultimo_intento FROM usuarios WHERE correo = ?";
+        $sql = "SELECT id, nombre, correo, contraseña, rol, intentos_fallidos, ultimo_intento FROM usuarios WHERE correo = ?";
         $stmt = $this->db->prepare($sql); // Prepara la consulta SQL para evitar inyecciones SQL
 
         // Verificar si la consulta fue preparada correctamente

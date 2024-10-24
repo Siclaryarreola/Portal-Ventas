@@ -1,6 +1,6 @@
 <?php
-$password_ingresada = '1234';
-$password_almacenada = '$2y$10$IIdaoEv6jzPGYerJDXWpUu/aY2Xx8ftDZuERZ0YOuGE2V1m.SnT7.'; // Hash de la base de datos
+$password_ingresada = '12345678';
+$password_almacenada = '$2y$10$gRMYkoy7SVzwAxteOwzNF.k4.v.gFuvgm7v7P.jZAx/NXO7GDUHMC'; // Hash de la base de datos
 
 if (password_verify($password_ingresada, $password_almacenada)) {
     echo "La contraseña es correcta.";

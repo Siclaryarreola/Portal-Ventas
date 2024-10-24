@@ -11,6 +11,6 @@ if ($inputCode == $_SESSION['recovery_code']) {
 } else {
     // Si no coincide, mostrar un error
     $_SESSION['error'] = 'El código de verificación es incorrecto.';
-    header('Location: controllers/verifyCode.php');
+    header('Location: views/verifyCode.php');
     exit();
 }
