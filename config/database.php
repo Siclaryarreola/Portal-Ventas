@@ -1,6 +1,6 @@
 <?php
 //ruta al documento con los datos de conexión
-require_once ('config/config.php');
+require_once(__DIR__ . '/config.php');
 
 class Database {
     private static $instance = null;
@@ -26,4 +26,3 @@ class Database {
         return $this->connection;
     }
 }
-

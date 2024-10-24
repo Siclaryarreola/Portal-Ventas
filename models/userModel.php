@@ -94,7 +94,7 @@ class UserModel {
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT); // Encripta la contraseña antes de almacenarla en la base de datos
 
         // Consulta SQL para insertar el nuevo usuario, con el rol por defecto como '1' (usuario regular)
-        $sql = "INSERT INTO usuarios (nombre, correo, contraseña, rol) VALUES (?, ?, ?, 1)"; 
+        $sql = "INSERT INTO usuarios (nombre, correo, contraseña, rol) VALUES (?, ?, ?, 0)"; 
         $stmt = $this->db->prepare($sql); // Prepara la consulta SQL
 
         // Verificar si la consulta fue preparada correctamente
